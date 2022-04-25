@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="rate"                      default="1"                               />
+  <arg name="cloud"                     default="/xtion/depth_registered/points"  />
+  <arg name="frame"                     default="/base_footprint"                 />
+  <arg name="show_rviz"                 default="true"                            />
+
+  <node name="node" pkg="halepensis_app1" type="node" output="screen">
+    <remap from="cloud"                     to="$(arg cloud)"     />
+    <param name="rate"                      type="double" value="$(arg rate)"  />
+    <param name="frame"                     type="string" value="$(arg frame)"  />
+  </node>
+
+  <group if="$(arg show_rviz)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find halepensis_app1)/config/pcl_node.rviz"/>
+  </group>
+
+</launch>

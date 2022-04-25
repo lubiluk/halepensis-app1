@@ -9,14 +9,11 @@
 
 // Std C++ headers
 #include <string>
+#include "node.hpp"
 
-namespace cpv {
-
-} // cpv
-
-int main(int argc, char** argv) 
+int main(int argc, char **argv)
 {
-  ros::init (argc, argv, "segment_table");
+  ros::init(argc, argv, "segment_table");
 
   ros::NodeHandle nh, pnh("~");
 
@@ -28,11 +25,11 @@ int main(int argc, char** argv)
 
   pcl::console::setVerbosityLevel(pcl::console::L_ERROR);
 
-    // pal::SegmentPlane locator(nh, pnh);
+  cvp::Node node(nh, pnh);
 
   std::cout << "It works!" << std::endl;
 
-//   locator.run();
+  node.run();
 
   return 0;
 }
