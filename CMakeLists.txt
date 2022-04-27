@@ -16,7 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED)
 # find_package(PCL 1.3 REQUIRED)
-find_package(PCL 1.8 REQUIRED COMPONENTS)
+find_package(PCL 1.8 REQUIRED)
+find_package(VTK 6.3 REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -124,6 +125,7 @@ include/relation_detection
 include/understanding
 ${catkin_INCLUDE_DIRS}
 ${PCL_INCLUDE_DIRS}
+${VTK_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -143,7 +145,7 @@ ${PCL_INCLUDE_DIRS}
 add_executable(${PROJECT_NAME}_node 
   src/halepensis_app1_node.cpp 
   src/node.cpp
-  src/libs.cpp
+  # src/libs.cpp
   src/entity_detection/peg.cpp
   src/entity_detection/properties.cpp
   src/entity_detection/object.cpp
@@ -154,7 +156,7 @@ add_executable(${PROJECT_NAME}_node
   src/processing/recognition.cpp
   src/processing/regions.cpp
   src/processing/clusters.cpp
-  # src/processing/visualization.cpp
+  src/processing/visualization.cpp
   src/processing/filtering.cpp
   src/processing/scaling.cpp
   src/processing/alignment.cpp
@@ -167,7 +169,7 @@ add_executable(${PROJECT_NAME}_node
   src/understanding/scene_entity.cpp
   src/understanding/task_understanding.cpp
   src/understanding/scene_graph.cpp
-  # src/understanding/scene_visualization.cpp
+  src/understanding/scene_visualization.cpp
   src/relation_detection/relation_detection.cpp
 )
 
@@ -189,10 +191,19 @@ set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX ""
 target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
   ${PCL_LIBRARY_DIRS}
+  ${VTK_LIBRARY_DIRS}
+  pcl_visualization
 )
 
-link_directories(${PCL_LIBRARY_DIRS})
-add_definitions(${PCL_DEFINITIONS})
+link_directories(
+  ${PCL_LIBRARY_DIRS}
+  ${VTK_LIBRARY_DIRS}
+)
+
+add_definitions(
+  ${PCL_DEFINITIONS}
+#   ${VTK_DEFINITIONS}
+)
 
 #############
 ## Install ##

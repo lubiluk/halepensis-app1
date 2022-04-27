@@ -24,9 +24,10 @@ namespace cvp
 
         void start();
         void stop();
+        void runTaskUnderstanding();
 
-        void publish(pcl::PointCloud<pcl::PointXYZRGB>::Ptr &planeCloud,
-                     pcl::PointCloud<pcl::PointXYZRGB>::Ptr &nonPlaneCloud,
+        void publish(pcl::PointCloud<pcl::PointNormal>::Ptr &planeCloud,
+                     pcl::PointCloud<pcl::PointNormal>::Ptr &nonPlaneCloud,
                      pcl::uint64_t &stamp,
                      const std::string &frameId);
 
@@ -49,6 +50,8 @@ namespace cvp
         ros::Subscriber _cloudSub;
         ros::Subscriber _joySub;
 
-        pcl::PointCloud<pcl::PointXYZRGB>::Ptr _lastCloud;
+        pcl::PointCloud<pcl::PointNormal>::Ptr _lastCloud;
+        pcl::PointCloud<pcl::PointNormal>::Ptr _beforeCloud;
+        pcl::PointCloud<pcl::PointNormal>::Ptr _afterCloud;
     };
 } // cvp
