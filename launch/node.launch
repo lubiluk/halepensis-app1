@@ -5,6 +5,7 @@
   <arg name="cloud"                     default="/xtion/depth_registered/points"  />
   <arg name="frame"                     default="/base_footprint"                 />
   <arg name="show_rviz"                 default="true"                            />
+  <arg name="joy"                       default="/joy"  />
 
   <node name="node" pkg="halepensis_app1" type="node" output="screen">
     <remap from="cloud"                     to="$(arg cloud)"     />

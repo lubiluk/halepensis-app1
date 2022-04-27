@@ -50,14 +50,34 @@ void Node::cloudCallback(const sensor_msgs::PointCloud2ConstPtr &cloud)
     // Transform cloud to PCL format
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr pclCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
     pcl::fromROSMsg(*cloudInProcFrame, *pclCloud);
+    _lastCloud = pclCloud;
 
     ROS_INFO_STREAM("Processing:");
-    ROS_INFO_STREAM("\tInput cloud:                 " << pclCloud->points.size() << " points");
+    ROS_INFO_STREAM("\tInput cloud:                 " << _lastCloud->points.size() << " points");
+}
+
+void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
+{
+    ROS_INFO_STREAM("Joy " << joy->axes[0] << " " << joy->axes[1] << " " << joy->axes[2] << " " << joy->axes[3] << " " << joy->axes[4] << " " << joy->axes[5] << " " <<"\n");
+
+    if (joy->axes[4] == 1.0) {
+        ROS_INFO("Before cloud captured");
+        
+    }
+
+    if (joy->axes[4] == -1.0) {
+        ROS_INFO("After cloud captured");
+    }
+
+    if (joy->axes[5] == -1.0) {
+        ROS_INFO("Reasoning triggered");
+    }
 }
 
 void Node::start()
 {
     _cloudSub = _nh.subscribe("cloud", 1, &Node::cloudCallback, this);
+    _joySub = _nh.subscribe("joy", 1, &Node::joyCallback, this);
     _enabled = true;
 }
 
@@ -67,8 +87,13 @@ void Node::stop()
     _enabled = false;
 }
 
+auto function() -> void;
+
 void Node::run()
 {
+    function();
+
+
     ros::Rate loopRate(_rate);
 
     double halfPeriod = 0.5 * 1.0 / _rate;

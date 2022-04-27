@@ -14,8 +14,9 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
-
+find_package(Boost REQUIRED)
+# find_package(PCL 1.3 REQUIRED)
+find_package(PCL 1.8 REQUIRED COMPONENTS)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -117,7 +118,12 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
 include
+include/entity_detection
+include/processing
+include/relation_detection
+include/understanding
 ${catkin_INCLUDE_DIRS}
+${PCL_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -134,7 +140,36 @@ ${catkin_INCLUDE_DIRS}
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/halepensis_app1_node.cpp)
-add_executable(${PROJECT_NAME}_node src/halepensis_app1_node.cpp src/node.cpp)
+add_executable(${PROJECT_NAME}_node 
+  src/halepensis_app1_node.cpp 
+  src/node.cpp
+  src/libs.cpp
+  src/entity_detection/peg.cpp
+  src/entity_detection/properties.cpp
+  src/entity_detection/object.cpp
+  src/entity_detection/hole.cpp
+  src/processing/search.cpp
+  src/processing/io.cpp
+  src/processing/normals.cpp
+  src/processing/recognition.cpp
+  src/processing/regions.cpp
+  src/processing/clusters.cpp
+  # src/processing/visualization.cpp
+  src/processing/filtering.cpp
+  src/processing/scaling.cpp
+  src/processing/alignment.cpp
+  src/processing/ransac.cpp
+  src/processing/features.cpp
+  src/understanding/entity_relation.cpp
+  # src/understanding/graph_visualization.cpp
+  src/understanding/task_rule.cpp
+  src/understanding/scene_understanding.cpp
+  src/understanding/scene_entity.cpp
+  src/understanding/task_understanding.cpp
+  src/understanding/scene_graph.cpp
+  # src/understanding/scene_visualization.cpp
+  src/relation_detection/relation_detection.cpp
+)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -153,7 +188,11 @@ set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX ""
 # )
 target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
+  ${PCL_LIBRARY_DIRS}
 )
+
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
 
 #############
 ## Install ##

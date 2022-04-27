@@ -70,6 +70,9 @@
         "random": "cpp",
         "set": "cpp",
         "string": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "future": "cpp",
+        "valarray": "cpp",
+        "codecvt": "cpp"
     }
 }

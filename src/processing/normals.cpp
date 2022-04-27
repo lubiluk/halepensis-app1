@@ -1,0 +1,24 @@
+#include "normals.hpp"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl/features/normal_3d.h>
+#include <pcl/features/fpfh.h>
+#include <pcl/search/pcl_search.h>
+#include <pcl/kdtree/kdtree_flann.h>
+#include <boost/make_shared.hpp>
+#pragma clang diagnostic pop
+
+auto compute_normals(const boost::shared_ptr<point_cloud> &cloud,
+                     const float normal_radius) -> void
+{
+    const auto search_method = boost::make_shared<pcl::search::KdTree<point>>();
+    
+    pcl::NormalEstimation<point, point> norm_est;
+    norm_est.setInputCloud(cloud);
+    norm_est.setSearchMethod(search_method);
+    norm_est.setRadiusSearch(normal_radius);
+    norm_est.compute(*cloud);
+}

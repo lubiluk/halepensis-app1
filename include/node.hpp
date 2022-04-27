@@ -1,5 +1,6 @@
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
+#include <sensor_msgs/Joy.h>
 #include <tf/transform_listener.h>
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
@@ -19,6 +20,7 @@ namespace cvp
 
     protected:
         void cloudCallback(const sensor_msgs::PointCloud2ConstPtr &cloud);
+        void joyCallback(const sensor_msgs::JoyConstPtr &joy);
 
         void start();
         void stop();
@@ -45,5 +47,8 @@ namespace cvp
 
         // ROS subscribers
         ros::Subscriber _cloudSub;
+        ros::Subscriber _joySub;
+
+        pcl::PointCloud<pcl::PointXYZRGB>::Ptr _lastCloud;
     };
 } // cvp

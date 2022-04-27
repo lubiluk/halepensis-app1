@@ -27,8 +27,6 @@ int main(int argc, char **argv)
 
   cvp::Node node(nh, pnh);
 
-  std::cout << "It works!" << std::endl;
-
   node.run();
 
   return 0;
