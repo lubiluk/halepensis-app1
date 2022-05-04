@@ -8,6 +8,7 @@
 #include "visualization.hpp"
 #include "scene_visualization.hpp"
 // #include "graph_visualization.hpp"
+#include <pcl/io/pcd_io.h>
 
 using namespace cvp;
 
@@ -56,7 +57,7 @@ void Node::cloudCallback(const sensor_msgs::PointCloud2ConstPtr &cloud)
 
     // Transform cloud to PCL format
     pcl::PointCloud<pcl::PointNormal>::Ptr pclCloud(new pcl::PointCloud<pcl::PointNormal>);
-    pcl::fromROSMsg(*cloudInProcFrame, *pclCloud);
+    pcl::fromROSMsg(*cloud, *pclCloud);
     _lastCloud = pclCloud;
 
     // ROS_INFO_STREAM("Processing:");
@@ -71,6 +72,7 @@ void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
     {
         ROS_INFO("Before cloud captured");
         _beforeCloud = _lastCloud;
+        pcl::io::savePCDFileASCII("/home/lubiluk/Scratch/before_cloud.pcd", *_lastCloud);
         ROS_INFO_STREAM("\tBefore cloud:                 " << _beforeCloud->points.size() << " points");
     }
 
@@ -78,6 +80,7 @@ void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
     {
         ROS_INFO("After cloud captured");
         _afterCloud = _lastCloud;
+        pcl::io::savePCDFileASCII("/home/lubiluk/Scratch/after_cloud.pcd", *_lastCloud);
         ROS_INFO_STREAM("\tAfter cloud:                 " << _afterCloud->points.size() << " points");
     }
 

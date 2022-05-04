@@ -74,5 +74,6 @@
         "future": "cpp",
         "valarray": "cpp",
         "codecvt": "cpp"
-    }
+    },
+    "ros.distro": "melodic"
 }
