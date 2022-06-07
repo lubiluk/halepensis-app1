@@ -2,17 +2,17 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "catkin_build",
-			"task": "build current package",
-			"problemMatcher": [
-				"$catkin-gcc",
-				"$catkin-cmake"
+			"type": "catkin",
+			"args": [
+				"build",
+				"--this",
+				"-DCMAKE_BUILD_TYPE=Debug"
 			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"label": "catkin_build: build current package"
+			"problemMatcher": [
+				"$catkin-gcc"
+			],
+			"group": "build",
+			"label": "catkin: build"
 		}
 	]
 }

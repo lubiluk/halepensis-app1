@@ -40,6 +40,8 @@ namespace cvp
         ros::CallbackQueue _cbQueue;
         bool _enabled;
         double _rate;
+        int _axis_before;
+        int _axis_after;
 
         tf::TransformListener _tfListener;
 

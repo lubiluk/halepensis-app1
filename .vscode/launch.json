@@ -5,9 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "ROS: Attach",
+            "name": "ROS: Launch",
+            "request": "launch",
+            "target": "/home/lubiluk/Code/hsr_ws/src/halepensis-app1/launch/hsrb.launch",
+            // "launch": "[rviz, gz, gzclient, gzserver]",
             "type": "ros",
-            "request": "attach"
         }
     ]
 }

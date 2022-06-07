@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="rate"                      default="1"                               />
+  <arg name="cloud"                     default="/hsrb/head_rgbd_sensor/depth_registered/rectified_points"  />
+  <arg name="frame"                     default="/base_footprint"                 />
+  <arg name="show_rviz"                 default="false"                            />
+  <arg name="joy"                       default="/hsrb/joy"  />
+  <arg name="axis_before"               default="16"/>
+  <arg name="axis_after"                default="17"/>
+
+  <node name="node" pkg="halepensis_app1" type="node" output="screen">
+    <remap from="cloud"                     to="$(arg cloud)"     />
+    <remap from="joy"                       to="$(arg joy)"     />
+    <param name="rate"                      type="double" value="$(arg rate)"  />
+    <param name="frame"                     type="string" value="$(arg frame)"  />
+  </node>
+
+  <group if="$(arg show_rviz)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find halepensis_app1)/config/hsrb.rviz"/>
+  </group>
+
+</launch>

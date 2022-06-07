@@ -17,12 +17,16 @@ Node::Node(ros::NodeHandle &nh,
                                    _pnh(pnh),
                                    _enabled(false),
                                    _rate(1),
-                                   _processingFrame("")
+                                   _processingFrame(""),
+                                   _axis_before(0),
+                                   _axis_after(1)
 {
     _nh.setCallbackQueue(&_cbQueue);
 
     pnh.param<double>("rate", _rate, _rate);
     pnh.param<std::string>("frame", _processingFrame, _processingFrame);
+    pnh.param<int>("axis_before", _axis_before, _axis_before);
+    pnh.param<int>("axis_after", _axis_after, _axis_after);
 
     ROS_INFO_STREAM("The node will operate at maximum " << _rate << " Hz");
 
@@ -66,7 +70,7 @@ void Node::cloudCallback(const sensor_msgs::PointCloud2ConstPtr &cloud)
 
 void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
 {
-    // ROS_INFO_STREAM("Joy " << joy->axes[0] << " " << joy->axes[1] << " " << joy->axes[2] << " " << joy->axes[3] << " " << joy->axes[4] << " " << joy->axes[5] << " " <<"\n");
+    ROS_INFO_STREAM("Joy " << joy->axes[0] << " " << joy->axes[1] << " " << joy->axes[2] << " " << joy->axes[3] << " " << joy->axes[4] << " " << joy->axes[5] << " " <<"\n");
 
     if (joy->axes[4] == 1.0)
     {
@@ -76,7 +80,7 @@ void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
         ROS_INFO_STREAM("\tBefore cloud:                 " << _beforeCloud->points.size() << " points");
     }
 
-    if (joy->axes[4] == -1.0)
+    if (joy->axes[16] == 1.0)
     {
         ROS_INFO("After cloud captured");
         _afterCloud = _lastCloud;
@@ -84,7 +88,7 @@ void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
         ROS_INFO_STREAM("\tAfter cloud:                 " << _afterCloud->points.size() << " points");
     }
 
-    if (joy->axes[5] == -1.0)
+    if (joy->axes[17] == 1.0)
     {
         ROS_INFO("Reasoning triggered");
         runTaskUnderstanding();

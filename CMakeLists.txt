@@ -16,8 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED)
 # find_package(PCL 1.3 REQUIRED)
-find_package(PCL 1.8 REQUIRED)
-find_package(VTK 6.3 REQUIRED)
+find_package(PCL REQUIRED)
+find_package(VTK REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
