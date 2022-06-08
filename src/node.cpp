@@ -41,12 +41,12 @@ Node::~Node()
 {
 }
 
-void Node::cloudCallback(const sensor_msgs::PointCloud2ConstPtr &cloud)
+void Node::cloudCallback(const sensor_msgs::PointCloud2Ptr &cloud)
 {
     if ((cloud->width * cloud->height) == 0)
         return;
 
-    sensor_msgs::PointCloud2Ptr cloudInProcFrame;
+    sensor_msgs::PointCloud2Ptr cloudInProcFrame = cloud;
 
     // Transform the point cloud to the frame specified if any
     if (!_processingFrame.empty())
@@ -56,8 +56,6 @@ void Node::cloudCallback(const sensor_msgs::PointCloud2ConstPtr &cloud)
         pcl_ros::transformPointCloud(_processingFrame, *cloud, *cloudInProcFrame, _tfListener);
         cloudInProcFrame->header.frame_id = _processingFrame;
     }
-    else
-        *cloudInProcFrame = *cloud;
 
     // Transform cloud to PCL format
     pcl::PointCloud<pcl::PointNormal>::Ptr pclCloud(new pcl::PointCloud<pcl::PointNormal>);

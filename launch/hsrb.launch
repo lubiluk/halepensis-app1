@@ -3,11 +3,9 @@
 
   <arg name="rate"                      default="1"                               />
   <arg name="cloud"                     default="/hsrb/head_rgbd_sensor/depth_registered/rectified_points"  />
-  <arg name="frame"                     default="/base_footprint"                 />
+  <arg name="frame"                     default=""                 />
   <arg name="show_rviz"                 default="false"                            />
   <arg name="joy"                       default="/hsrb/joy"  />
-  <arg name="axis_before"               default="16"/>
-  <arg name="axis_after"                default="17"/>
 
   <node name="node" pkg="halepensis_app1" type="node" output="screen">
     <remap from="cloud"                     to="$(arg cloud)"     />

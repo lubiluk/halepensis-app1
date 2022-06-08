@@ -19,7 +19,7 @@ namespace cvp
         void run();
 
     protected:
-        void cloudCallback(const sensor_msgs::PointCloud2ConstPtr &cloud);
+        void cloudCallback(const sensor_msgs::PointCloud2Ptr &cloud);
         void joyCallback(const sensor_msgs::JoyConstPtr &joy);
 
         void start();
