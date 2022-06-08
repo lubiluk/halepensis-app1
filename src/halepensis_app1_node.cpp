@@ -13,7 +13,7 @@
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "segment_table");
+  ros::init(argc, argv, "halepensis_app1");
 
   ros::NodeHandle nh, pnh("~");
 

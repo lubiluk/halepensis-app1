@@ -8,8 +8,9 @@
             "name": "ROS: Launch",
             "request": "launch",
             "target": "/home/lubiluk/Code/hsr_ws/src/halepensis-app1/launch/hsrb.launch",
-            // "launch": "[rviz, gz, gzclient, gzserver]",
+            // "launch": ["hsrb_mode"],
             "type": "ros",
+            // "preLaunchTask": "catkin: build"
         }
     ]
 }

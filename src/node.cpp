@@ -70,9 +70,9 @@ void Node::cloudCallback(const sensor_msgs::PointCloud2ConstPtr &cloud)
 
 void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
 {
-    ROS_INFO_STREAM("Joy " << joy->axes[0] << " " << joy->axes[1] << " " << joy->axes[2] << " " << joy->axes[3] << " " << joy->axes[4] << " " << joy->axes[5] << " " <<"\n");
-
-    if (joy->axes[4] == 1.0)
+    ROS_INFO_STREAM("bUTTONS " << joy->buttons[16]);
+    
+    if (joy->buttons[16] == 1)
     {
         ROS_INFO("Before cloud captured");
         _beforeCloud = _lastCloud;
@@ -80,7 +80,7 @@ void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
         ROS_INFO_STREAM("\tBefore cloud:                 " << _beforeCloud->points.size() << " points");
     }
 
-    if (joy->axes[16] == 1.0)
+    if (joy->buttons[17] == 1)
     {
         ROS_INFO("After cloud captured");
         _afterCloud = _lastCloud;
@@ -88,7 +88,7 @@ void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
         ROS_INFO_STREAM("\tAfter cloud:                 " << _afterCloud->points.size() << " points");
     }
 
-    if (joy->axes[17] == 1.0)
+    if (joy->buttons[15] == 1)
     {
         ROS_INFO("Reasoning triggered");
         runTaskUnderstanding();
