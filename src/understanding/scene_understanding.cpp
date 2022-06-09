@@ -32,6 +32,10 @@ auto scene_understanding::describe_relations(const vector<string> &object_ids, b
 {
     auto fts = features(object_ids, graph);
     
+    if (fts.empty()) {
+        return;
+    }
+    
     // Go through features pairwise
     for (auto it = fts.begin(); it != fts.end() - 1; ++it) {
         auto v1 = *it;

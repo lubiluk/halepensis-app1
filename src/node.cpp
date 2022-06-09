@@ -111,7 +111,7 @@ void Node::runTaskUnderstanding()
     auto cloud_before = _beforeCloud;
     auto cloud_after = _afterCloud;
 
-    view(cloud_before, cloud_after);
+    // view(cloud_before, cloud_after);
 
     cloud_before = remove_outliers(cloud_before);
     cloud_after = remove_outliers(cloud_after);
@@ -129,13 +129,13 @@ void Node::runTaskUnderstanding()
     indics = fit_plane(cloud_after);
     cloud_after = extract_cloud(cloud_after, std::get<0>(indics.value()), true);
 
-    view(cloud_before, cloud_after);
+    // view(cloud_before, cloud_after);
 
     /* Task Reasoning Part */
 
     task_understanding task{cloud_before, cloud_after};
     task.detect_objects(false);
-    view_clusters(task.before_scene.cloud, task.before_scene.object_clouds());
+    // view_clusters(task.before_scene.cloud, task.before_scene.object_clouds());
     task.detect_change();
     task.detect_features();
     task.describe_relations(false);
