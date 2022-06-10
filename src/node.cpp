@@ -27,6 +27,7 @@ Node::Node(ros::NodeHandle &nh,
     pnh.param<std::string>("frame", _processingFrame, _processingFrame);
     pnh.param<int>("axis_before", _axis_before, _axis_before);
     pnh.param<int>("axis_after", _axis_after, _axis_after);
+    pnh.param<std::string>("dir", _dir, _dir);
 
     ROS_INFO_STREAM("The node will operate at maximum " << _rate << " Hz");
 
@@ -74,7 +75,7 @@ void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
     {
         ROS_INFO("Before cloud captured");
         _beforeCloud = _lastCloud;
-        pcl::io::savePCDFileASCII("/home/lubiluk/Scratch/before_cloud.pcd", *_lastCloud);
+        pcl::io::savePCDFileASCII(_dir + "before_cloud.pcd", *_lastCloud);
         ROS_INFO_STREAM("\tBefore cloud:                 " << _beforeCloud->points.size() << " points");
     }
 
@@ -82,7 +83,7 @@ void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
     {
         ROS_INFO("After cloud captured");
         _afterCloud = _lastCloud;
-        pcl::io::savePCDFileASCII("/home/lubiluk/Scratch/after_cloud.pcd", *_lastCloud);
+        pcl::io::savePCDFileASCII(_dir + "after_cloud.pcd", *_lastCloud);
         ROS_INFO_STREAM("\tAfter cloud:                 " << _afterCloud->points.size() << " points");
     }
 

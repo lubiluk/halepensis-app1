@@ -42,6 +42,7 @@ namespace cvp
         double _rate;
         int _axis_before;
         int _axis_after;
+        std::string _dir;
 
         tf::TransformListener _tfListener;
 

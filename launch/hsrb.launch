@@ -6,12 +6,14 @@
   <arg name="frame"                     default=""                 />
   <arg name="show_rviz"                 default="false"                            />
   <arg name="joy"                       default="/hsrb/joy"  />
+  <arg name="dir"                       default="$(env HOME)/Scratch"  />
 
   <node name="node" pkg="halepensis_app1" type="node" output="screen">
     <remap from="cloud"                     to="$(arg cloud)"     />
     <remap from="joy"                       to="$(arg joy)"     />
     <param name="rate"                      type="double" value="$(arg rate)"  />
     <param name="frame"                     type="string" value="$(arg frame)"  />
+    <param name="dir"                     type="string" value="$(arg dir)"  />
   </node>
 
   <group if="$(arg show_rviz)">
