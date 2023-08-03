@@ -63,12 +63,19 @@ void Node::cloudCallback(const sensor_msgs::PointCloud2Ptr &cloud)
     pcl::fromROSMsg(*cloud, *pclCloud);
     _lastCloud = pclCloud;
 
+    view(pclCloud);
+
     // ROS_INFO_STREAM("Processing:");
-    // ROS_INFO_STREAM("\tInput cloud:                 " << _lastCloud->points.size() << " points");
+    ROS_INFO_STREAM("\tInput cloud:                 " << _lastCloud->points.size() << " points");
 }
 
 void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
 {
+    if (!_lastCloud) {
+        ROS_INFO_STREAM("No frame was captured yet");
+        return;
+    }
+
     ROS_INFO_STREAM("bUTTONS " << joy->buttons[16]);
     
     if (joy->buttons[16] == 1)
@@ -112,7 +119,7 @@ void Node::runTaskUnderstanding()
     auto cloud_before = _beforeCloud;
     auto cloud_after = _afterCloud;
 
-    // view(cloud_before, cloud_after);
+    view(cloud_before, cloud_after);
 
     cloud_before = remove_outliers(cloud_before);
     cloud_after = remove_outliers(cloud_after);

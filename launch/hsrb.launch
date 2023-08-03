@@ -3,7 +3,7 @@
 
   <arg name="rate"                      default="1"                               />
   <arg name="cloud"                     default="/hsrb/head_rgbd_sensor/depth_registered/rectified_points"  />
-  <arg name="frame"                     default=""                 />
+  <arg name="frame"                     default="head_rgbd_sensor_rgb_frame"/>
   <arg name="show_rviz"                 default="false"                            />
   <arg name="joy"                       default="/hsrb/joy"  />
   <arg name="dir"                       default="$(env HOME)/Scratch"  />
