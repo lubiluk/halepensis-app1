@@ -12,30 +12,37 @@
 
 using namespace cvp;
 
+sensor_msgs::PointCloud2 flipCloud(const sensor_msgs::PointCloud2 &cloud)
+{
+    Eigen::Matrix4f transform;
+    transform << 
+        -1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, -1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 1.0f;
+
+    sensor_msgs::PointCloud2 cloud_out;
+
+    pcl_ros::transformPointCloud(transform, cloud, cloud_out);
+
+    return cloud_out;
+}
+
 Node::Node(ros::NodeHandle &nh,
            ros::NodeHandle &pnh) : _nh(nh),
-                                   _pnh(pnh),
                                    _enabled(false),
                                    _rate(1),
-                                   _processingFrame(""),
                                    _axis_before(0),
                                    _axis_after(1)
 {
     _nh.setCallbackQueue(&_cbQueue);
 
     pnh.param<double>("rate", _rate, _rate);
-    pnh.param<std::string>("frame", _processingFrame, _processingFrame);
     pnh.param<int>("axis_before", _axis_before, _axis_before);
     pnh.param<int>("axis_after", _axis_after, _axis_after);
     pnh.param<std::string>("dir", _dir, _dir);
 
     ROS_INFO_STREAM("The node will operate at maximum " << _rate << " Hz");
-
-    if (_processingFrame.empty())
-        ROS_INFO("The point cloud will be filtered in its original frame");
-    else
-        ROS_INFO_STREAM("The point cloud will be filtered after transforming it to the "
-                        << _processingFrame << " frame");
 }
 
 Node::~Node()
@@ -47,20 +54,12 @@ void Node::cloudCallback(const sensor_msgs::PointCloud2Ptr &cloud)
     if ((cloud->width * cloud->height) == 0)
         return;
 
-    sensor_msgs::PointCloud2Ptr cloudInProcFrame = cloud;
+    // Flip the cloud (HSR has camera up side down)
+    const auto flipped = flipCloud(*cloud);
 
-    // Transform the point cloud to the frame specified if any
-    if (!_processingFrame.empty())
-    {
-        cloudInProcFrame.reset(new sensor_msgs::PointCloud2);
-        // ROS_INFO_STREAM("Transforming point cloud from frame " << cloud->header.frame_id << " to frame " << _processingFrame);
-        pcl_ros::transformPointCloud(_processingFrame, *cloud, *cloudInProcFrame, _tfListener);
-        cloudInProcFrame->header.frame_id = _processingFrame;
-    }
-
-    // Transform cloud to PCL format
+    // Convert cloud to PCL format
     pcl::PointCloud<pcl::PointNormal>::Ptr pclCloud(new pcl::PointCloud<pcl::PointNormal>);
-    pcl::fromROSMsg(*cloud, *pclCloud);
+    pcl::fromROSMsg(flipped, *pclCloud);
     _lastCloud = pclCloud;
 
     view(pclCloud);
@@ -71,13 +70,14 @@ void Node::cloudCallback(const sensor_msgs::PointCloud2Ptr &cloud)
 
 void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
 {
-    if (!_lastCloud) {
+    if (!_lastCloud)
+    {
         ROS_INFO_STREAM("No frame was captured yet");
         return;
     }
 
     ROS_INFO_STREAM("bUTTONS " << joy->buttons[16]);
-    
+
     if (joy->buttons[16] == 1)
     {
         ROS_INFO("Before cloud captured");

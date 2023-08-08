@@ -18,12 +18,12 @@ auto view(const boost::shared_ptr<point_cloud>& cloud) -> void
     pcl::visualization::PCLVisualizer viz("3D Viewer");
     viz.setBackgroundColor(0, 0, 0);
     viz.initCameraParameters();
-//    viz.setCameraPosition(0, 0, 0, 0, -1, 0);
-    viz.setCameraPosition(0, 0, 0, 0, 0, -1, 0, 1, 0);
+    viz.setCameraPosition(0, 0, 0, 0, 0, 1, 0, 1, 0);
+    // viz.addCoordinateSystem (0.3);
     
     viz.addPointCloud<point>(cloud, "cloud");
     viz.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "cloud");
-    viz.resetCameraViewpoint("cloud");
+    // viz.resetCameraViewpoint("cloud");
     
     viz.spin();
     viz.close();

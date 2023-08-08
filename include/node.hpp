@@ -26,28 +26,13 @@ namespace cvp
         void stop();
         void runTaskUnderstanding();
 
-        void publish(pcl::PointCloud<pcl::PointNormal>::Ptr &planeCloud,
-                     pcl::PointCloud<pcl::PointNormal>::Ptr &nonPlaneCloud,
-                     pcl::uint64_t &stamp,
-                     const std::string &frameId);
-
-        void publishEmptyClouds(pcl::uint64_t &stamp,
-                                const std::string &frameId);
-
-        void normalizeVector(std::vector<double> &v);
-
-        ros::NodeHandle &_nh, _pnh;
+        ros::NodeHandle &_nh;
         ros::CallbackQueue _cbQueue;
         bool _enabled;
         double _rate;
         int _axis_before;
         int _axis_after;
         std::string _dir;
-
-        tf::TransformListener _tfListener;
-
-        // frame in which the point cloud will be transformed
-        std::string _processingFrame;
 
         // ROS subscribers
         ros::Subscriber _cloudSub;
