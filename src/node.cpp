@@ -25,6 +25,14 @@ sensor_msgs::PointCloud2 flipCloud(const sensor_msgs::PointCloud2 &cloud)
 
     pcl_ros::transformPointCloud(transform, cloud, cloud_out);
 
+    transform << 
+        -1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, -1.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 1.0f;
+
+    pcl_ros::transformPointCloud(transform, cloud_out, cloud_out);
+
     return cloud_out;
 }
 
@@ -65,7 +73,7 @@ void Node::cloudCallback(const sensor_msgs::PointCloud2Ptr &cloud)
     view(pclCloud);
 
     // ROS_INFO_STREAM("Processing:");
-    ROS_INFO_STREAM("\tInput cloud:                 " << _lastCloud->points.size() << " points");
+    // ROS_INFO_STREAM("\tInput cloud:                 " << _lastCloud->points.size() << " points");
 }
 
 void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
@@ -75,8 +83,6 @@ void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
         ROS_INFO_STREAM("No frame was captured yet");
         return;
     }
-
-    ROS_INFO_STREAM("bUTTONS " << joy->buttons[16]);
 
     if (joy->buttons[16] == 1)
     {
@@ -92,6 +98,9 @@ void Node::joyCallback(const sensor_msgs::JoyConstPtr &joy)
         _afterCloud = _lastCloud;
         pcl::io::savePCDFileASCII(_dir + "after_cloud.pcd", *_lastCloud);
         ROS_INFO_STREAM("\tAfter cloud:                 " << _afterCloud->points.size() << " points");
+
+        ROS_INFO("Auto reasoning");
+        runTaskUnderstanding();
     }
 
     if (joy->buttons[15] == 1)

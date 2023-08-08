@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="rate"                      default="1"                               />
+  <arg name="rate"                      default="10"                               />
   <arg name="cloud"                     default="/hsrb/head_rgbd_sensor/depth_registered/rectified_points"  />
   <arg name="show_rviz"                 default="false"                            />
   <arg name="joy"                       default="/hsrb/joy"  />
