@@ -1,6 +1,7 @@
 #include "node.hpp"
 #include <pcl_ros/point_cloud.h>
 #include <pcl_ros/transforms.h>
+#include <pcl_conversions/pcl_conversions.h>
 #include "filtering.hpp"
 #include "normals.hpp"
 #include "ransac.hpp"
@@ -70,7 +71,7 @@ void Node::cloudCallback(const sensor_msgs::PointCloud2Ptr &cloud)
     pcl::fromROSMsg(flipped, *pclCloud);
     _lastCloud = pclCloud;
 
-    view(pclCloud);
+    // view(pclCloud);
 
     // ROS_INFO_STREAM("Processing:");
     // ROS_INFO_STREAM("\tInput cloud:                 " << _lastCloud->points.size() << " points");
@@ -135,7 +136,7 @@ void Node::runTaskUnderstanding()
     cloud_before = downsample(cloud_before);
     cloud_after = downsample(cloud_after);
 
-    // view(cloud_before, cloud_after);
+    view(cloud_before, cloud_after);
 
     compute_normals(cloud_before);
     compute_normals(cloud_after);
@@ -166,6 +167,7 @@ void Node::runTaskUnderstanding()
 
     ROS_INFO("It worked!");
 }
+
 
 void Node::run()
 {

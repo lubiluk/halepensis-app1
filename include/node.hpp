@@ -1,9 +1,9 @@
 #include <ros/ros.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <sensor_msgs/Joy.h>
 #include <tf/transform_listener.h>
-#include <pcl/point_types.h>
-#include <pcl/point_cloud.h>
 
 namespace cvp
 {
